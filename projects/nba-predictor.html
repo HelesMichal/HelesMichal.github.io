@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NBA Game Predictor | Michal Heleš</title>
+<meta name="description" content="A leakage-safe NBA game prediction pipeline: scrapes stats, trains an XGBoost margin model with isotonic-calibrated win probabilities, and automates daily predictions via GitHub Actions.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NBA Game Predictor — Michal Heleš">
+<meta property="og:description" content="A leakage-safe NBA game prediction pipeline: scrapes stats, trains an XGBoost margin model with isotonic-calibrated win probabilities, and automates daily predictions via GitHub Actions.">
+<meta property="og:image" content="../assets/profile_picture.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NBA Game Predictor — Michal Heleš">
+<meta name="twitter:description" content="A leakage-safe NBA game prediction pipeline: scrapes stats, trains an XGBoost margin model with isotonic-calibrated win probabilities, and automates daily predictions via GitHub Actions.">
+<meta name="twitter:image" content="../assets/profile_picture.jpeg">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true">
+  <span class="blob blob-a"></span>
+  <span class="blob blob-b"></span>
+  <span class="blob blob-c"></span>
+</div>
+<div class="noise" aria-hidden="true"></div>
+
+<header class="site-header">
+  <nav class="nav container">
+    <a href="../index.html#top" class="logo">MH</a>
+    <a href="../index.html#work" class="back-link">← Back to portfolio</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="project-hero container">
+    <p class="eyebrow reveal">Personal project · ongoing</p>
+    <h1 class="reveal" style="--d:1">NBA Game Predictor</h1>
+    <p class="hero-role reveal" style="--d:2">A leakage-safe machine learning pipeline for predicting NBA game outcomes</p>
+    <p class="hero-text reveal" style="--d:3">
+      A pure-Python pipeline that scrapes NBA stats, engineers a leakage-safe feature
+      set, trains a margin-regression model with isotonic-calibrated win probabilities,
+      and predicts upcoming games — with the last 5 days of predictions re-checked
+      against reality every run. Automated end-to-end with GitHub Actions.
+    </p>
+    <div class="pill-row reveal" style="--d:4">
+      <span class="pill">Python</span>
+      <span class="pill">pandas</span>
+      <span class="pill">XGBoost</span>
+      <span class="pill">scikit-learn</span>
+      <span class="pill">nba_api</span>
+      <span class="pill">BeautifulSoup</span>
+      <span class="pill">GitHub Actions</span>
+    </div>
+    <div class="hero-actions reveal" style="--d:5">
+      <a href="https://github.com/HelesMichal/nba_predictor_v2" target="_blank" rel="noopener" class="btn btn-primary">View on GitHub</a>
+    </div>
+  </section>
+
+  <section class="content-section container">
+    <div class="about-stats stat-row reveal">
+      <div class="stat-card">
+        <span class="stat-num">12</span>
+        <span class="stat-label">seasons of data used for training</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">6</span>
+        <span class="stat-label">game rolling window for team form</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">$0</span>
+        <span class="stat-label">automation cost — GitHub Actions free tier</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section container">
+    <h2 class="section-title reveal">What it does</h2>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-head"><h3>Fetch</h3></div>
+          <p>Pulls games and team advanced stats from <code>nba_api</code>, plus player advanced stats (BPM/VORP/WS) and current injuries from Basketball-Reference. Regular season and playoffs are tagged separately.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-head"><h3>Build features</h3></div>
+          <p>Assembles rolling team form, Pythagorean expectation, schedule &amp; travel, home-court advantage, season-level advanced stats, star strength, and dual Elo rating books — all leakage-safe via <code>shift(1)</code> before any rolling calculation.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-head"><h3>Train</h3></div>
+          <p>An XGBoost regressor predicts point margin, mapped to win probability via isotonic regression. Trains on the last 12 seasons with exponential per-season sample weights, excluding the 2019-20 COVID-bubble season entirely. Greedy correlation pruning drops redundant features.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-head"><h3>Predict</h3></div>
+          <p>For each scheduled game: pulls the latest feature row per team, applies injury adjustments for players listed Out/Doubtful, and outputs win probabilities plus predicted margin. Re-predicts the last 5 days of completed games to report rolling accuracy.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section container">
+    <h2 class="section-title reveal">Feature engineering highlights</h2>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <h3>Rolling team form</h3>
+        <p>6-game rolling window (not 10) so the model reacts to lineup changes, trades, and hot/cold streaks without lagging real form shifts by weeks.</p>
+      </div>
+      <div class="feature-card reveal">
+        <h3>Elo ratings</h3>
+        <p>Separate books for regular season vs. playoffs, with a 538-style margin-of-victory multiplier, home bonus, and season-to-season regression toward the mean.</p>
+      </div>
+      <div class="feature-card reveal">
+        <h3>Star strength</h3>
+        <p>Per-team-season score derived from each player's minutes, usage rate, BPM, VORP, and win shares — captures the impact of missing stars beyond simple win/loss stats.</p>
+      </div>
+      <div class="feature-card reveal">
+        <h3>Schedule &amp; travel</h3>
+        <p>Rest days, back-to-backs, travel miles, timezone shifts, and high-altitude games (Denver, Utah) — the physical toll behind the box score.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section container">
+    <h2 class="section-title reveal">Automated end-to-end</h2>
+    <p class="reveal">
+      Two GitHub Actions workflows keep the pipeline running without a server: a
+      <strong>daily prediction</strong> job that sends today's games plus the last-5-days
+      accuracy to a Telegram bot, and a <strong>weekly retrain</strong> job that refreshes
+      the model every Monday. Both run entirely on GitHub's free tier — no
+      infrastructure to maintain.
+    </p>
+  </section>
+
+  <section class="content-section container">
+    <h2 class="section-title reveal">Links</h2>
+    <ul class="contact-links reveal">
+      <li><a href="https://github.com/HelesMichal/nba_predictor_v2" target="_blank" rel="noopener"><span class="link-arrow">→</span>Source code on GitHub</a></li>
+    </ul>
+  </section>
+
+  <div class="container">
+    <a href="../index.html#work" class="btn btn-outline back-cta reveal">← Back to all projects</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>Michal Heleš — West Flanders, Belgium</p>
+  </div>
+</footer>
+
+<script src="../js/script.js"></script>
+</body>
+</html>

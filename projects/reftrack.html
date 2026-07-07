@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RefTrack — Basketball Referee Gesture Recognition | Michal Heleš</title>
+<meta name="description" content="RefTrack: a custom YOLO model on a Raspberry Pi 5 that recognizes basketball referee signals in real time, with a FastAPI + Gradio + PostgreSQL stack.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RefTrack — Basketball Referee Gesture Recognition">
+<meta property="og:description" content="A custom YOLO model on a Raspberry Pi 5 that recognizes basketball referee signals in real time, with a FastAPI + Gradio + PostgreSQL stack.">
+<meta property="og:image" content="../assets/reftrack/02-front-hero.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RefTrack — Basketball Referee Gesture Recognition">
+<meta name="twitter:description" content="A custom YOLO model on a Raspberry Pi 5 that recognizes basketball referee signals in real time, with a FastAPI + Gradio + PostgreSQL stack.">
+<meta name="twitter:image" content="../assets/reftrack/02-front-hero.jpeg">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true">
+  <span class="blob blob-a"></span>
+  <span class="blob blob-b"></span>
+  <span class="blob blob-c"></span>
+</div>
+<div class="noise" aria-hidden="true"></div>
+
+<header class="site-header">
+  <nav class="nav container">
+    <a href="../index.html#top" class="logo">MH</a>
+    <a href="../index.html#work" class="back-link">← Back to portfolio</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="project-hero container">
+    <p class="eyebrow reveal">First-year project · 2025</p>
+    <h1 class="reveal" style="--d:1">RefTrack</h1>
+    <p class="hero-role reveal" style="--d:2">Basketball Referee Gesture Recognition System</p>
+    <p class="hero-text reveal" style="--d:3">
+      A standalone AI device that watches a basketball referee, recognizes their hand
+      signals in real time, and logs a human-readable match record for the scorer's
+      desk — built end-to-end on a Raspberry Pi 5, from a self-recorded dataset to a
+      final, boxed-up product.
+    </p>
+    <div class="pill-row reveal" style="--d:4">
+      <span class="pill">Python</span>
+      <span class="pill">YOLO</span>
+      <span class="pill">FastAPI</span>
+      <span class="pill">Gradio</span>
+      <span class="pill">PostgreSQL</span>
+      <span class="pill">Docker</span>
+      <span class="pill">Raspberry Pi 5</span>
+      <span class="pill">GPIO</span>
+      <span class="pill">Linux</span>
+    </div>
+    <div class="hero-actions reveal" style="--d:5">
+      <button type="button" class="btn btn-primary" id="openVideoModal">Watch 1-min demo</button>
+      <a href="https://github.com/HelesMichal/ProjectOne_RefTrack" target="_blank" rel="noopener" class="btn btn-outline">View on GitHub</a>
+    </div>
+  </section>
+
+  <div class="video-modal" id="videoModal" aria-hidden="true">
+    <div class="video-modal-backdrop" data-close></div>
+    <div class="video-modal-content">
+      <button type="button" class="video-modal-close" data-close aria-label="Close video">✕</button>
+      <div class="video-modal-frame">
+        <iframe id="videoIframe" src="" data-src="https://www.youtube.com/embed/Hlc6nt3GwlM" title="RefTrack 1-minute demo video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="recognition reveal">
+      <span class="recognition-badge">Top 7</span>
+      <p>Selected as one of seven standout projects from the entire CTAI class at Howest, presented as a program showcase highlight.</p>
+    </div>
+  </div>
+
+  <section class="content-section container">
+    <h2 class="section-title reveal">Images</h2>
+    <div class="carousel reveal">
+      <button type="button" class="carousel-arrow prev" aria-label="Previous image">‹</button>
+      <div class="carousel-track">
+        <div class="carousel-slide"><img src="../assets/reftrack/01-setup-wide.jpeg" alt="The full RefTrack setup: the wooden enclosure with its touchscreen, next to the USB camera on a tripod that watches the referee."></div>
+        <div class="carousel-slide"><img src="../assets/reftrack/02-front-hero.jpeg" alt="Front view of the RefTrack enclosure, showing the laser-cut plywood housing, the RefTrack nameplate, and the foldable 7-inch touchscreen."></div>
+        <div class="carousel-slide"><img src="../assets/reftrack/03-top-down.jpeg" alt="Top-down view of the closed enclosure, showing the RFID scan panel and the physical start/stop buttons on the front face."></div>
+        <div class="carousel-slide"><img src="../assets/reftrack/04-internals.jpeg" alt="Inside the enclosure: the Raspberry Pi 5 with an active cooling fan, the RFID reader module, and the wiring harness."></div>
+        <div class="carousel-slide"><img src="../assets/reftrack/05-ui-setup-v1.png" alt="Gradio 'Live Game Control' screen for configuring a new match — team selection, jersey colors, and venue."></div>
+        <div class="carousel-slide"><img src="../assets/reftrack/06-ui-setup-v2.png" alt="A refined version of the match setup screen, with a combined venue/arena field and tip-off date and time."></div>
+        <div class="carousel-slide"><img src="../assets/reftrack/07-ui-live-feed.png" alt="Live match view for Atlanta Hawks vs Boston Celtics, showing the jumpball possession arrow and a real-time action feed of referee calls."></div>
+        <div class="carousel-slide"><img src="../assets/reftrack/08-ui-statistics.png" alt="Per-quarter statistics breakdown — counts of fouls, jump balls, substitutions, and violations generated automatically from the action feed."></div>
+      </div>
+      <button type="button" class="carousel-arrow next" aria-label="Next image">›</button>
+    </div>
+  </section>
+
+  <section class="content-section container">
+    <h2 class="section-title reveal">The problem</h2>
+    <p class="reveal">
+      Scorer's-desk staff have to track every referee call — fouls, jump balls,
+      24-second violations, substitutions — by eye, in real time, while also running
+      the game clock and score. RefTrack takes part of that responsibility off their
+      plate: a camera watches the referee, an on-device model classifies the signal,
+      and the call is logged automatically so the desk can stay focused and make
+      fewer mistakes during fast-paced stretches of the game.
+    </p>
+  </section>
+
+  <section class="content-section container">
+    <h2 class="section-title reveal">How it's built</h2>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <h3>Custom vision model</h3>
+        <p>Trained a YOLO model on a self-recorded dataset of referee signals — Ball Left/Right, Foul, 24-second violation, Jumpball, Substitution — captured across different people, environments, and lighting, then augmented for robustness.</p>
+      </div>
+      <div class="feature-card reveal">
+        <h3>Full-stack app</h3>
+        <p>FastAPI backend handles all database CRUD and hardware I/O; Gradio powers a multi-tab dashboard (about, live data, operating, debugging) for testing and for the final product UI.</p>
+      </div>
+      <div class="feature-card reveal">
+        <h3>Dockerized data layer</h3>
+        <p>PostgreSQL runs in Docker via compose, with six tables (Games, Records, ActionType, Teams, Locations, AuthenticationUsers) tying an RFID-authenticated scan to a game session and every subsequent AI detection.</p>
+      </div>
+      <div class="feature-card reveal">
+        <h3>Real hardware</h3>
+        <p>RFID authentication gates access, a GPIO LED confirms boot and each new record, a USB camera streams to the live OpenCV/YOLO pipeline, and a physical button starts/stops the system alongside the touchscreen UI.</p>
+      </div>
+      <div class="feature-card reveal">
+        <h3>Deployed, not demoed</h3>
+        <p>Runs as systemd services with auto-boot on the Raspberry Pi — a fully standalone device, not a laptop demo, housed in a laser-cut plywood enclosure with a foldable 7-inch touchscreen.</p>
+      </div>
+      <div class="feature-card reveal">
+        <h3>On-device inference</h3>
+        <p>The YOLO model runs directly on the Pi against live camera footage; results flow to FastAPI, which updates the database and triggers hardware feedback in real time — no cloud round-trip.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section container">
+    <h2 class="section-title reveal">Links</h2>
+    <ul class="contact-links reveal">
+      <li><a href="https://youtu.be/Hlc6nt3GwlM" target="_blank" rel="noopener"><span class="link-arrow">→</span>1-minute demo video (on YouTube)</a></li>
+      <li><a href="https://github.com/HelesMichal/ProjectOne_RefTrack" target="_blank" rel="noopener"><span class="link-arrow">→</span>Source code on GitHub</a></li>
+      <li><a href="https://www.instructables.com/RefTrack-Basketball-Referee-Gesture-Recognition-Us/" target="_blank" rel="noopener"><span class="link-arrow">→</span>Instructable tutorial</a></li>
+    </ul>
+  </section>
+
+  <div class="container">
+    <a href="../index.html#work" class="btn btn-outline back-cta reveal">← Back to all projects</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>Michal Heleš — West Flanders, Belgium</p>
+  </div>
+</footer>
+
+<script src="../js/script.js"></script>
+<script src="../js/project-detail.js"></script>
+</body>
+</html>
